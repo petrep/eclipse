@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class QuizPanel extends JPanel implements ActionListener {
-	// declaring all panels2
+	// declaring all panels
 	JPanel panelCont = new JPanel();	
 	JPanel panel1 = new JPanel();
 	JPanel panel2 = new JPanel();
