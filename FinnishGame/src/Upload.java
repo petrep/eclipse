@@ -10,30 +10,31 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class Upload {
 	JDialog dialog = new JDialog();
 	JPanel u_panel = new JPanel();
 	JButton u_upload = new JButton("Upload");
-	Object[] columnNames = { "English", "Finnish" };
-	Object[][] data = { { "1r - 1c", "1r - 2c" }, { "2r - 1c", "2r - 2c" },
+	String[] columnNames = { "English", "Finnish" };
+	String[][] data = { { "1r - 1c", "1r - 2c" }, { "2r - 1c", "2r - 2c" },
 			{ "3r - 1c", "3r - 2c" } };
 	JTable table = new JTable(data, columnNames);
 	JButton save = new JButton("Save");
 
 	public Upload() {
 
-		dialog.setSize(400, 300);
+		dialog.setSize(600, 300);
 		dialog.setVisible(true);
 		dialog.setTitle("Upload new words into the database");
 		dialog.add(u_panel);
 
 		table.setRowHeight(40);
 		table.setCellSelectionEnabled(true);
-		u_panel.add(table);
 		u_panel.add(u_upload);
 		u_panel.add(save);
+		u_panel.add(new JScrollPane(table)); // displays the headers of the table
 		saveFile();
 
 		u_upload.addActionListener(new ActionListener() {
@@ -136,7 +137,10 @@ public class Upload {
 	public Object getValueAt(int row, int col) {
 		return data[row][col];
 	}
-
+public void enter(){
+	
+	
+}
 	// URL url = new URL("ftp://user:pass@myftp.abc.com/myFile.txt;type=i");
 	// URLConnection urlc = url.openConnection();
 	// OutputStream os = urlc.getOutputStream(); // To upload
