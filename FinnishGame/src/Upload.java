@@ -65,31 +65,68 @@ public class Upload {
 							+ fileChooser.getSelectedFile());
 					savingPath = fileChooser.getSelectedFile();
 				}
-				for (Object x : data) {
-					// fw.write(x.toString());
-					System.out.println(getValueAt(0, 1));
-					PrintWriter writer = null;
-					try {
-						writer = new PrintWriter(savingPath + File.separator
-								+ "the-file-name.txt", "UTF-8");
-						System.out.println("will save to: " + savingPath
-								+ File.separator + "the-file-name.txt");
-					} catch (FileNotFoundException e1) {
-						JOptionPane.showMessageDialog(fileChooser,
-								"Unable to save file " + e1.getMessage(),
-								"Save Dialog", JOptionPane.ERROR_MESSAGE);
-						break; // exits the loop if the error pop up appears
-					} catch (UnsupportedEncodingException e1) {
-						System.out.println("An error has occured: "
-								+ e1.getMessage());
-					}
-					if (writer != null) { // checks if the file has been created
-						writer.println("The first line");
-						writer.println("The second line");
-						writer.close();
-					}
-
+				
+				PrintWriter writer = null;
+				// Saving the English words
+				try {
+					writer = new PrintWriter(savingPath + File.separator
+							+ "english1.txt", "UTF-8");
+					System.out.println("will save to: " + savingPath
+							+ File.separator + "the-file-name.txt");
+				} catch (FileNotFoundException e1) {
+					JOptionPane.showMessageDialog(fileChooser,
+							"Unable to save file " + e1.getMessage(),
+							"Save Dialog", JOptionPane.ERROR_MESSAGE);
+					
+				} catch (UnsupportedEncodingException e1) {
+					JOptionPane.showMessageDialog(fileChooser,
+							"Unable to save file because the text contains unsupported characters " + e1.getMessage(),
+							"Save Dialog", JOptionPane.ERROR_MESSAGE);
+					
 				}
+				if (writer != null) { // checks if the file has been created
+					writer.println("The first line");
+					writer.println("The second line");
+					//for (Object x : data) {
+					// fw.write(x.toString());
+					for (int englishRowCount = 0; englishRowCount <= table.getRowCount()-1; englishRowCount++){
+						System.out.println(getValueAt(englishRowCount, 0));
+						writer.println(getValueAt(englishRowCount, 0));
+					}
+					
+
+				//}
+					writer.close();
+				}
+				
+				// Saving the Finnish words
+				try {
+					writer = new PrintWriter(savingPath + File.separator
+							+ "finnish1.txt", "UTF-8");
+					System.out.println("will save to: " + savingPath
+							+ File.separator + "the-file-name.txt");
+				} catch (FileNotFoundException e1) {
+					JOptionPane.showMessageDialog(fileChooser,
+							"Unable to save file " + e1.getMessage(),
+							"Save Dialog", JOptionPane.ERROR_MESSAGE);
+					
+				} catch (UnsupportedEncodingException e1) {
+					JOptionPane.showMessageDialog(fileChooser,
+							"Unable to save file because the text contains unsupported characters " + e1.getMessage(),
+							"Save Dialog", JOptionPane.ERROR_MESSAGE);
+					
+				}
+				if (writer != null) { // checks if the file has been created
+					writer.println("The first line");
+					writer.println("The second line");
+					for (int finnishRowCount = 0; finnishRowCount <= table.getRowCount()-1; finnishRowCount++){
+						System.out.println(getValueAt(finnishRowCount, 1));
+						writer.println(getValueAt(finnishRowCount, 1));
+					}
+					writer.close();
+				}
+				
+				
 
 			}
 
