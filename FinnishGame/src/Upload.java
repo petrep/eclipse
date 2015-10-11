@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 public class Upload {
 	JDialog dialog = new JDialog();
@@ -26,6 +27,8 @@ public class Upload {
 			{ "3r - 1c", "3r - 2c" } };
 	JTable table = new JTable(new DefaultTableModel(data, columnNames));
 	JButton save = new JButton("Save");
+	DefaultTableModel model;
+	String[][] newArray;
 
 	public Upload() {
 
@@ -59,6 +62,9 @@ public class Upload {
 		save.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				model.fireTableDataChanged();
+				table.repaint();
+				
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser
 						.setDialogTitle("Specify a folder where the two files will be saved");
@@ -95,12 +101,25 @@ public class Upload {
 				if (writer != null) { // checks if the file has been created
 					writer.println("The first line");
 					writer.println("The second line");
+					System.out.println("rowcount finnish: "+table.getRowCount());
 					// for (Object x : data) {
 					// fw.write(x.toString());
 					for (int englishRowCount = 0; englishRowCount <= table
 							.getRowCount() - 1; englishRowCount++) {
-						System.out.println(getValueAt(englishRowCount, 0));
-						writer.println(getValueAt(englishRowCount, 0));
+						model.fireTableDataChanged();
+						model.fireTableRowsInserted(0,table.getRowCount());
+						Vector tableVector = model.getDataVector();
+						System.out.println("vectordata: "+model.getDataVector().elementAt(englishRowCount));
+
+						Object currentEnglishWord = ((Vector) tableVector.elementAt(englishRowCount)).elementAt(0);
+
+						
+						table.repaint();
+//						newArray = Arrays.copyOf(data, 4);
+//						newArray[3] = new String[]{"Column 1", "Column 2"};
+						System.out.println("rowcount: "+englishRowCount);
+//						System.out.println(getValueAt(englishRowCount, 0));
+						writer.println(currentEnglishWord);
 					}
 
 					// }
@@ -128,10 +147,17 @@ public class Upload {
 				if (writer != null) { // checks if the file has been created
 					writer.println("The first line");
 					writer.println("The second line");
+					
 					for (int finnishRowCount = 0; finnishRowCount <= table
 							.getRowCount() - 1; finnishRowCount++) {
-						System.out.println(getValueAt(finnishRowCount, 1));
-						writer.println(getValueAt(finnishRowCount, 1));
+						model.fireTableDataChanged();
+						model.fireTableRowsInserted(0,table.getRowCount());
+						Vector tableVector = model.getDataVector();
+						System.out.println("vectordata: "+model.getDataVector().elementAt(finnishRowCount));
+						Object currentFinnishWord = ((Vector) tableVector.elementAt(finnishRowCount)).elementAt(1);
+						table.repaint();
+						System.out.println("rowcount: "+finnishRowCount);
+						writer.println(currentFinnishWord);
 					}
 					writer.close();
 				}
@@ -142,16 +168,22 @@ public class Upload {
 	}
 
 	public Object getValueAt(int row, int col) {
-		return data[row][col];
+		model.fireTableDataChanged();
+		model.fireTableRowsInserted(0,table.getRowCount());
+		table.repaint();
+		System.out.println("rowcount here: "+table.getRowCount());
+		
+		return newArray[row][col];
 	}
 
 	public void enter() {
 		table.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					model.addRow(new Object[]{"Column 1", "Column 2"});
-					System.out.println("test");
+					model = (DefaultTableModel) table.getModel();
+					model.addRow(new String[]{"Column 1", "Column 2"});
+					table.repaint();
+					
 				}
 			}
 		});
