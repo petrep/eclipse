@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -59,7 +60,7 @@ public class Upload {
 				File savingPath = null;
 
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					
+
 					System.out.println("getSelectedFile() : "
 							+ fileChooser.getSelectedFile());
 					savingPath = fileChooser.getSelectedFile();
@@ -69,16 +70,24 @@ public class Upload {
 					System.out.println(getValueAt(0, 1));
 					PrintWriter writer = null;
 					try {
-						writer = new PrintWriter(savingPath + File.separator + "the-file-name.txt", "UTF-8");
-						System.out.println("will save to: "+ savingPath + File.separator + "the-file-name.txt");
+						writer = new PrintWriter(savingPath + File.separator
+								+ "the-file-name.txt", "UTF-8");
+						System.out.println("will save to: " + savingPath
+								+ File.separator + "the-file-name.txt");
 					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(fileChooser,
+								"Unable to save file " + e1.getMessage(),
+								"Save Dialog", JOptionPane.ERROR_MESSAGE);
+						break; // exits the loop if the error pop up appears
 					} catch (UnsupportedEncodingException e1) {
-						e1.printStackTrace();
+						System.out.println("An error has occured: "
+								+ e1.getMessage());
 					}
-					writer.println("The first line");
-					writer.println("The second line");
-					writer.close();
+					if (writer != null) { // checks if the file has been created
+						writer.println("The first line");
+						writer.println("The second line");
+						writer.close();
+					}
 
 				}
 
