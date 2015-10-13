@@ -32,25 +32,32 @@ public class Menu extends JFrame {
 		JMenuItem createFile = new JMenuItem("Create a new file");
 		JMenuItem loadFile = new JMenuItem("Load from file");
 		JMenuItem exitItem = new JMenuItem("Exit");
+		JMenuItem helpItem = new JMenuItem("Help");
+		JMenuItem uploadItem = new JMenuItem("Upload");
 
 		fileMenu.add(createFile);
 		fileMenu.add(loadFile);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
-		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-				ActionEvent.ALT_MASK)); // displays the shortcut
+		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.ALT_MASK)); // displays
+																								// the
+																								// shortcut
 
 		JMenu toolsMenu = new JMenu("Tools");
-		JMenuItem uploadItem = new JMenuItem("Upload");
+
 		toolsMenu.add(uploadItem);
 
 		toolsMenu.setMnemonic(KeyEvent.VK_T);
-		uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
-				ActionEvent.ALT_MASK));
+		uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.ALT_MASK));
 
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.add(helpItem);
+		helpMenu.setMnemonic(KeyEvent.VK_H);
+		helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.ALT_MASK));
 		menuBar.add(fileMenu);
 		menuBar.add(toolsMenu);
+		menuBar.add(helpMenu);
 
 		loadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,8 +80,7 @@ public class Menu extends JFrame {
 		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				int action = JOptionPane.showConfirmDialog(null,
-						"Do you really want to exit the application?",
+				int action = JOptionPane.showConfirmDialog(null, "Do you really want to exit the application?",
 						"Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
 
 				if (action == JOptionPane.OK_OPTION) {
@@ -86,11 +92,16 @@ public class Menu extends JFrame {
 		uploadItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("testing");
-				Upload upload = new Upload();
+				new Upload();
 
 			}
 		});
+		helpItem.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				new HelpPanel();
+			}
+		});
 		return menuBar;
 
 	}
@@ -110,10 +121,8 @@ public class Menu extends JFrame {
 			System.out.println(e1.getMessage());
 			// displays a pop up with an error message if the file can not be
 			// saved
-			JOptionPane
-					.showMessageDialog(fileChooser,
-							"Unable to save file " + e1.getMessage(),
-							"Save Dialog", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(), "Save Dialog",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
