@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -144,6 +145,10 @@ public class Upload {
 						Vector tableVector = model.getDataVector();
 						System.out.println("vectordata: " + model.getDataVector().elementAt(finnishRowCount));
 						Object currentFinnishWord = ((Vector) tableVector.elementAt(finnishRowCount)).elementAt(1);
+						if (currentFinnishWord.toString().isEmpty()){
+							System.out.println("The current cell is empty");
+							
+						}
 						// table.repaint();
 						// model.fireTableDataChanged();
 						// model.fireTableRowsInserted(0,table.getRowCount());
@@ -181,6 +186,8 @@ public class Upload {
 			}
 		});
 	}
+	
+	// This feature needs to be developed -> ftp connection
 	// URL url = new URL("ftp://user:pass@myftp.abc.com/myFile.txt;type=i");
 	// URLConnection urlc = url.openConnection();
 	// OutputStream os = urlc.getOutputStream(); // To upload
