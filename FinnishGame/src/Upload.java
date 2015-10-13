@@ -187,7 +187,7 @@ public class Upload {
 		});
 	}
 	
-	// This feature needs to be developed -> ftp connection
+	// This feature needs to be developed -> ftp connection:
 	// URL url = new URL("ftp://user:pass@myftp.abc.com/myFile.txt;type=i");
 	// URLConnection urlc = url.openConnection();
 	// OutputStream os = urlc.getOutputStream(); // To upload
