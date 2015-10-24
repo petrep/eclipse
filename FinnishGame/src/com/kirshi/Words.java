@@ -1,3 +1,5 @@
+package com.kirshi;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -136,7 +138,7 @@ public class Words {
         gc.anchor = GridBagConstraints.NORTH;
         panel.add(showAnswer, gc);
 
-        InputStream englishFile = new FileInputStream("src/englishwords.txt");
+        InputStream englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
          BufferedReader readerEng = new BufferedReader(new InputStreamReader(
          //unsupported in java6, ignore for now
          englishFile, StandardCharsets.UTF_8));
@@ -154,7 +156,7 @@ public class Words {
             } catch (IOException e) {
             }
         }
-        InputStream finnishFile = new FileInputStream("src/finnishwords.txt");
+        InputStream finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
          BufferedReader readerFin = new BufferedReader(new InputStreamReader(
          finnishFile, StandardCharsets.UTF_8));
        // BufferedReader readerFin = new BufferedReader(new InputStreamReader(
@@ -173,7 +175,7 @@ public class Words {
             } catch (IOException e) {
             }
         }
-        AskQuestion(); // the game begins with a question
+       AskQuestion(); // the game begins with a question
 
         nextQuestion.addActionListener(new ActionListener() { // asks a new
                                                                 // question from
