@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -136,11 +137,11 @@ public class Words {
         panel.add(showAnswer, gc);
 
         InputStream englishFile = new FileInputStream("src/englishwords.txt");
-        // BufferedReader readerEng = new BufferedReader(new InputStreamReader(
-        // //unsupported in java6, ignore for now
-        // englishFile, StandardCharsets.UTF_8));
-        BufferedReader readerEng = new BufferedReader(new InputStreamReader(
-                englishFile));
+         BufferedReader readerEng = new BufferedReader(new InputStreamReader(
+         //unsupported in java6, ignore for now
+         englishFile, StandardCharsets.UTF_8));
+//        BufferedReader readerEng = new BufferedReader(new InputStreamReader(
+//                englishFile));
         String lineEng = null;
         try {
             while ((lineEng = readerEng.readLine()) != null) {
@@ -154,10 +155,10 @@ public class Words {
             }
         }
         InputStream finnishFile = new FileInputStream("src/finnishwords.txt");
-        // BufferedReader readerFin = new BufferedReader(new InputStreamReader(
-        // finnishFile, StandardCharsets.UTF_8));
-        BufferedReader readerFin = new BufferedReader(new InputStreamReader(
-                finnishFile));
+         BufferedReader readerFin = new BufferedReader(new InputStreamReader(
+         finnishFile, StandardCharsets.UTF_8));
+       // BufferedReader readerFin = new BufferedReader(new InputStreamReader(
+              //  finnishFile));
 
         finnishList = new ArrayList<String>();
         String lineFin = null;
