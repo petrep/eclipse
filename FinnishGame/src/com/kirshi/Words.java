@@ -35,212 +35,207 @@ import javax.swing.border.Border;
 
 public class Words {
 
-    Random random = new Random();
-    JFrame frame = new JFrame("Finnish Vocabulary Check");
-    JTextArea questionArea = new JTextArea();
-    JTextField userAnswer = new JTextField(18);
-    JButton check = new JButton("Check");
-    JButton showAnswer = new JButton("Show Answer");
-    JButton nextQuestion = new JButton("New Question");
-    JTextArea result = new JTextArea();
-    JPanel panel = new JPanel();
-    String randomQuestion;
-    int x;
-    List<String> englishList;
-    List<String> finnishList;
-    Menu menu = new Menu();
-    
+	Random random = new Random();
+	JFrame frame = new JFrame("Finnish Vocabulary Check");
+	JTextArea questionArea = new JTextArea();
+	JTextField userAnswer = new JTextField(18);
+	JButton check = new JButton("Check");
+	JButton showAnswer = new JButton("Show Answer");
+	JButton nextQuestion = new JButton("New Question");
+	JTextArea result = new JTextArea();
+	JPanel panel = new JPanel();
+	String randomQuestion;
+	int x;
+	List<String> englishList;
+	List<String> finnishList;
+	Menu menu = new Menu();
 
-    public Words() throws FileNotFoundException {
-    	
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 350);
-        frame.setMinimumSize(new Dimension(500, 300));
-        frame.add(panel);
-        frame.add(menu.createMenuBar(), new BorderLayout().NORTH );
-        englishList = new ArrayList<String>();
+	public Words() throws FileNotFoundException {
 
-        // designing the GUI
-        panel.setLayout(new GridBagLayout());
-        showAnswer.setBackground(Color.white);
-        nextQuestion.setBackground(Color.white);
-        check.setBackground(Color.white);
-        showAnswer.setMnemonic(KeyEvent.VK_S); // Alt + S to click showAnswer
-        check.setMnemonic(KeyEvent.VK_C); // Alt + C to click Check
-        nextQuestion.setMnemonic(KeyEvent.VK_N); // Alt + N to click
-                                                    // nextQuestion
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(500, 350);
+		frame.setMinimumSize(new Dimension(500, 300));
+		frame.add(panel);
+		frame.add(menu.createMenuBar(), new BorderLayout().NORTH);
+		englishList = new ArrayList<String>();
 
-        // creates a line border with the specified color and width
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 2);
-        questionArea.setBorder(border);
-        userAnswer.setBorder(border);
-        // sets Font
+		// designing the GUI
+		panel.setLayout(new GridBagLayout());
+		showAnswer.setBackground(Color.white);
+		nextQuestion.setBackground(Color.white);
+		check.setBackground(Color.white);
+		showAnswer.setMnemonic(KeyEvent.VK_S); // Alt + S to click showAnswer
+		check.setMnemonic(KeyEvent.VK_C); // Alt + C to click Check
+		nextQuestion.setMnemonic(KeyEvent.VK_N); // Alt + N to click
+													// nextQuestion
 
-        Font font = new Font("Verdana", Font.PLAIN, 12);
-        questionArea.setFont(font);
+		// creates a line border with the specified color and width
+		Border border = BorderFactory.createLineBorder(Color.BLUE, 2);
+		questionArea.setBorder(border);
+		userAnswer.setBorder(border);
+		// sets Font
 
-        questionArea.setEditable(false);
-        panel.setBackground(new Color(21, 144, 189));
+		Font font = new Font("Verdana", Font.PLAIN, 12);
+		questionArea.setFont(font);
 
-        GridBagConstraints gc = new GridBagConstraints();
+		questionArea.setEditable(false);
+		panel.setBackground(new Color(21, 144, 189));
 
-        // first row
-        gc.weightx = 1; // these 2 values do not need to be copied below if they
-                        // don`t change
-        gc.weighty = 0.1;
+		GridBagConstraints gc = new GridBagConstraints();
 
-        gc.gridx = 0;
-        gc.gridy = 0; // the first row begins with 0
-        gc.fill = GridBagConstraints.NONE; // this means there will be no
-                                            // filling color
-        gc.anchor = GridBagConstraints.CENTER; // position in the center
-        gc.insets = new Insets(10, 0, 0, 0);
-        panel.add(questionArea, gc);
+		// first row
+		gc.weightx = 1; // these 2 values do not need to be copied below if they
+						// don`t change
+		gc.weighty = 0.1;
 
-        // second row
-        gc.gridx = 0;
-        gc.gridy = 1; // the second row is 1
-        gc.insets = new Insets(30, 0, 30, 0); // 30 means distance from bottom
-                                                // to
-                                                // top
-        gc.fill = GridBagConstraints.NONE;
-        gc.anchor = GridBagConstraints.CENTER;
-        panel.add(userAnswer, gc);
+		gc.gridx = 0;
+		gc.gridy = 0; // the first row begins with 0
+		gc.fill = GridBagConstraints.NONE; // this means there will be no
+											// filling color
+		gc.anchor = GridBagConstraints.CENTER; // position in the center
+		gc.insets = new Insets(10, 0, 0, 0);
+		panel.add(questionArea, gc);
 
-        // //////////third row ///////////////////////////////////
+		// second row
+		gc.gridx = 0;
+		gc.gridy = 1; // the second row is 1
+		gc.insets = new Insets(30, 0, 30, 0); // 30 means distance from bottom
+												// to
+												// top
+		gc.fill = GridBagConstraints.NONE;
+		gc.anchor = GridBagConstraints.CENTER;
+		panel.add(userAnswer, gc);
 
-        gc.gridx = 0;
-        gc.gridy = 2; // the third row is 2
+		// //////////third row ///////////////////////////////////
 
-        gc.insets = new Insets(0, 150, 20, 0);
-        gc.anchor = GridBagConstraints.WEST;
-        panel.add(check, gc);
+		gc.gridx = 0;
+		gc.gridy = 2; // the third row is 2
 
-        gc.gridx = 0;
-        gc.gridy = 2;
-        gc.insets = new Insets(0, 90, 20, 0);
-        gc.anchor = GridBagConstraints.CENTER;
-        panel.add(nextQuestion, gc);
+		gc.insets = new Insets(0, 150, 20, 0);
+		gc.anchor = GridBagConstraints.WEST;
+		panel.add(check, gc);
 
-        // fourth row
-        gc.gridx = 0;
-        gc.gridy = 3; // the fourth row is 3
+		gc.gridx = 0;
+		gc.gridy = 2;
+		gc.insets = new Insets(0, 90, 20, 0);
+		gc.anchor = GridBagConstraints.CENTER;
+		panel.add(nextQuestion, gc);
 
-        gc.insets = new Insets(0, 0, 10, 0);
-        gc.anchor = GridBagConstraints.CENTER;
-        panel.add(result, gc);
+		// fourth row
+		gc.gridx = 0;
+		gc.gridy = 3; // the fourth row is 3
 
-        // fifth row
-        gc.gridx = 0;
-        gc.gridy = 4;
-        gc.insets = new Insets(0, 0, 0, 0);
-        gc.anchor = GridBagConstraints.NORTH;
-        panel.add(showAnswer, gc);
+		gc.insets = new Insets(0, 0, 10, 0);
+		gc.anchor = GridBagConstraints.CENTER;
+		panel.add(result, gc);
 
-        InputStream englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
-         BufferedReader readerEng = new BufferedReader(new InputStreamReader(
-         //unsupported in java6, ignore for now
-         englishFile, StandardCharsets.UTF_8));
-//        BufferedReader readerEng = new BufferedReader(new InputStreamReader(
-//                englishFile));
-        String lineEng = null;
-        try {
-            while ((lineEng = readerEng.readLine()) != null) {
-                englishList.add(lineEng);
-            }
-        } catch (IOException e) {
-        } finally {
-            try {
-                readerEng.close();
-            } catch (IOException e) {
-            }
-        }
-        InputStream finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
-         BufferedReader readerFin = new BufferedReader(new InputStreamReader(
-         finnishFile, StandardCharsets.UTF_8));
-       // BufferedReader readerFin = new BufferedReader(new InputStreamReader(
-              //  finnishFile));
+		// fifth row
+		gc.gridx = 0;
+		gc.gridy = 4;
+		gc.insets = new Insets(0, 0, 0, 0);
+		gc.anchor = GridBagConstraints.NORTH;
+		panel.add(showAnswer, gc);
 
-        finnishList = new ArrayList<String>();
-        String lineFin = null;
-        try {
-            while ((lineFin = readerFin.readLine()) != null) {
-                finnishList.add(lineFin);
-            }
-        } catch (IOException e) {
-        } finally {
-            try {
-                readerFin.close();
-            } catch (IOException e) {
-            }
-        }
-       AskQuestion(); // the game begins with a question
+		InputStream englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
+		// unsupported in java6, ignore for now
+		BufferedReader readerEng = new BufferedReader(new InputStreamReader(englishFile, StandardCharsets.UTF_8));
+		// BufferedReader readerEng = new BufferedReader(new InputStreamReader(
+		// englishFile));
+		String lineEng = null;
+		try {
+			while ((lineEng = readerEng.readLine()) != null) {
+				englishList.add(lineEng);
+			}
+		} catch (IOException e) {
+		} finally {
+			try {
+				readerEng.close();
+			} catch (IOException e) {
+			}
+		}
+		InputStream finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
+		BufferedReader readerFin = new BufferedReader(new InputStreamReader(finnishFile, StandardCharsets.UTF_8));
+		// BufferedReader readerFin = new BufferedReader(new InputStreamReader(
+		// finnishFile));
 
-        nextQuestion.addActionListener(new ActionListener() { // asks a new
-                                                                // question from
-                                                                // the user
+		finnishList = new ArrayList<String>();
+		String lineFin = null;
+		try {
+			while ((lineFin = readerFin.readLine()) != null) {
+				finnishList.add(lineFin);
+			}
+		} catch (IOException e) {
+		} finally {
+			try {
+				readerFin.close();
+			} catch (IOException e) {
+			}
+		}
+		AskQuestion(); // the game begins with a question
 
-                    public void actionPerformed(ActionEvent e) {
-                        userAnswer.setText("");
-                        result.setText("");
-                        AskQuestion(); // asks the next question
-                    }
-                });
+		nextQuestion.addActionListener(new ActionListener() { // asks a new
+																// question from
+																// the user
 
-        check.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						userAnswer.setText("");
+						result.setText("");
+						AskQuestion(); // asks the next question
+					}
+				});
 
-            public void actionPerformed(ActionEvent e) {
+		check.addActionListener(new ActionListener() {
 
-                if (userAnswer.getText().trim().equals(finnishList.get(x))) {
-                    result.setText("Correct");
-                    result.setBackground(new Color(56, 194, 93)); // the answer
-                                                                    // is
-                                                                    // correct,
-                    // sets the background
-                    // to green
-                } else {
-                    result.setText("False");
-                    result.setForeground(Color.WHITE);
-                    result.setBackground(new Color(240, 103, 93)); // sets the
-                                                                    // background
-                                                                    // to
-                    // red if the answer is
-                    // wrong
-                }
+			public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+				if (userAnswer.getText().trim().equals(finnishList.get(x))) {
+					result.setText("Correct");
+					result.setBackground(new Color(56, 194, 93)); // the answer
+																	// is
+																	// correct,
+					// sets the background
+					// to green
+				} else {
+					result.setText("False");
+					result.setForeground(Color.WHITE);
+					result.setBackground(new Color(240, 103, 93)); // sets the
+																	// background
+																	// to
+					// red if the answer is
+					// wrong
+				}
 
-        showAnswer.addActionListener(new ActionListener() {
+			}
+		});
 
-            public void actionPerformed(ActionEvent e1) {
-                String correctAnswer = finnishList.get(x);
-                result.setText(correctAnswer); // shows the correct answer
-                result.setForeground(Color.BLUE);
-                result.setBackground(Color.WHITE);
+		showAnswer.addActionListener(new ActionListener() {
 
-            }
-        });
+			public void actionPerformed(ActionEvent e1) {
+				String correctAnswer = finnishList.get(x);
+				result.setText(correctAnswer); // shows the correct answer
+				result.setForeground(Color.BLUE);
+				result.setBackground(Color.WHITE);
 
-    }
+			}
+		});
 
-    public void AskQuestion() {
+	}
 
-        x = random.nextInt(englishList.size());
-        randomQuestion = englishList.get(x);
-        questionArea.setText("What is '" + randomQuestion + "' in Finnish?");
-        userAnswer.setEditable(true);
-        userAnswer.requestFocusInWindow(); // sets the cursor to appear in the
-                                            // text field
-        userAnswer.setHorizontalAlignment(JTextField.CENTER); // aligns the
-                                                                // typed text
-                                                                // into the
-                                                                // center
-        result.setEditable(false);
+	public void AskQuestion() {
 
-    }
+		x = random.nextInt(englishList.size());
+		randomQuestion = englishList.get(x);
+		questionArea.setText("What is '" + randomQuestion + "' in Finnish?");
+		userAnswer.setEditable(true);
+		userAnswer.requestFocusInWindow(); // sets the cursor to appear in the
+											// text field
+		userAnswer.setHorizontalAlignment(JTextField.CENTER); // aligns the
+																// typed text
+																// into the
+																// center
+		result.setEditable(false);
+
+	}
 
 }
-
-

@@ -82,20 +82,24 @@ public class Upload {
 
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setDialogTitle("Specify a folder where the two files will be saved");
-					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					fileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
 					fileChooser.setAcceptAllFileFilterUsed(false);
-					File savingPath = null;
+					//String savingPath = null;
+					File savingFileName = null; 
 
-					if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 
 						System.out.println("getSelectedFile() : " + fileChooser.getSelectedFile());
-						savingPath = fileChooser.getSelectedFile();
+						//savingPath = fileChooser.getSelectedFile().;
+						savingFileName = fileChooser.getSelectedFile();
+						System.out.println("!!" +  savingFileName + savingFileName.getAbsolutePath());
 					}
 
 					PrintWriter writer = null;
 					// Saving the English words
 					try {
-						writer = new PrintWriter(savingPath + File.separator + "english1.txt", "UTF-8");
+//						writer = new PrintWriter(savingPath + File.separator + "english1.txt", "UTF-8");
+						writer = new PrintWriter(savingFileName + "_en" + ".txt", "UTF-8");
 					} catch (FileNotFoundException e1) {
 						JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(),
 								"Save Dialog", JOptionPane.ERROR_MESSAGE);
@@ -125,7 +129,8 @@ public class Upload {
 
 					// Saving the Finnish words
 					try {
-						writer = new PrintWriter(savingPath + File.separator + "finnish1.txt", "UTF-8");
+//						writer = new PrintWriter(savingPath + File.separator + "finnish1.txt", "UTF-8");
+						writer = new PrintWriter(savingFileName + "_fi" + ".txt", "UTF-8");
 					} catch (FileNotFoundException e1) {
 						JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(),
 								"Save Dialog", JOptionPane.ERROR_MESSAGE);
