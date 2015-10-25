@@ -209,7 +209,7 @@ public class Words {
 	public void AskQuestion() {
 
 		InputStream englishFile = null;
-		System.out.println("englishWords: " + englishWords);
+//		System.out.println("englishWords: " + englishWords);
 		// if no custom words list is selected, the default list is used
 		if (englishWords == null) {
 			englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
@@ -279,8 +279,7 @@ public class Words {
 			} catch (IOException e) {
 			}
 		}
-		System.out.println("englishlist: " + englishList);
-		System.out.println("englishlist size: " + englishList.size());
+//		System.out.println("englishlist size: " + englishList.size());
 		x = random.nextInt(this.englishList.size());
 		randomQuestion = this.englishList.get(x);
 		questionArea.setText("What is '" + randomQuestion + "' in Finnish?");

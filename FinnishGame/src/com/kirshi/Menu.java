@@ -22,7 +22,7 @@ import javax.swing.KeyStroke;
 public class Menu extends JFrame {
 	JFileChooser fileChooser = new JFileChooser();
 	private FileListener fileNameListener;
-	
+
 	public Menu() {
 
 	}
@@ -37,7 +37,6 @@ public class Menu extends JFrame {
 		JMenuItem exitItem = new JMenuItem("Exit");
 		JMenuItem helpItem = new JMenuItem("Help");
 		JMenuItem uploadItem = new JMenuItem("Upload");
-		
 
 		fileMenu.add(createFile);
 		fileMenu.add(loadFile);
@@ -63,40 +62,45 @@ public class Menu extends JFrame {
 		menuBar.add(toolsMenu);
 		menuBar.add(helpMenu);
 
+		fileChooser.setDialogTitle("Select the english file you want to load");
+
 		loadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// shows the open dialog
-				int showOpenDialog = 0;
-				//shows which file the user selected from the Open dialog
-				File selectedFile = fileChooser.getSelectedFile();
-				fileChooser.setDialogTitle("Select the english file you want to load");
-				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					System.out.println(fileChooser.getSelectedFile());
-					// prevents the user from choosing the wrong file. It has to be the english file
-					 while(showOpenDialog == JFileChooser.APPROVE_OPTION &&
-						       !fileChooser.getSelectedFile().getName().endsWith("en.txt")){
-						      JOptionPane.showMessageDialog(null,
-						       "The file " + fileChooser.getSelectedFile()
-						       + " should end with en.txt", "Open Error",
-						       JOptionPane.ERROR_MESSAGE);
-						      // if the user chooses a wrong file, the Open dialog appears again
-						      showOpenDialog = fileChooser.showOpenDialog(null);
-						      //sets the selected file value to null until the user chooses a correct file
-						      selectedFile = null;
-						    }
-				}
 				// creates an event if the loadFile menuItem is clicked
 				Object source = e.getSource();
-				if (source == loadFile){
-				//if (fileNameListener != null){ not needed for now
-					// saves the chosen file name as a string. it is used in Words class as a name for the english custom file
-					if (selectedFile != null){
-					fileNameListener.fileLoaded(fileChooser.getSelectedFile().toString());
-					
+				// shows the open dialog
+				int showOpenDialog = fileChooser.showOpenDialog(Menu.this);
+
+				// shows which file the user selected from the Open dialog
+				File selectedFile = fileChooser.getSelectedFile();
+				// prevents the user from choosing the wrong file. It has to
+				// be the english file
+				while (showOpenDialog == JFileChooser.APPROVE_OPTION
+						&& !fileChooser.getSelectedFile().getName().endsWith("en.txt")) {
+
+					JOptionPane.showMessageDialog(null, "The file " + fileChooser.getSelectedFile()
+							+ " should end with en.txt", "Open Error", JOptionPane.ERROR_MESSAGE);
+					// if the user chooses a wrong file, the Open dialog
+					// appears again
+					showOpenDialog = fileChooser.showOpenDialog(Menu.this);
+					if (fileChooser.getSelectedFile().getName().endsWith("en.txt")) {
+						break;
+					}
+					// sets the selected file value to null until the user
+					// chooses a correct file
+					selectedFile = null;
+				}
+
+				if (source == loadFile) {
+					// if (fileNameListener != null){ not needed for now
+					// saves the chosen file name as a string. it is used in
+					// Words class as a name for the english custom file
+					if (selectedFile != null) {
+						fileNameListener.fileLoaded(fileChooser.getSelectedFile().toString());
+					}
 				}
 			}
-			}
-			
+
 		});
 
 		createFile.addActionListener(new ActionListener() {
@@ -155,32 +159,34 @@ public class Menu extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	// listening to the selected file name and passing the information to the Words class 
+
+	// listening to the selected file name and passing the information to the
+	// Words class
 	public void setFileListener(FileListener listener) {
-		
+
 		this.fileNameListener = listener;
 	}
 
-//		File chosenFile = fileChooser.getSelectedFile();
-//
-//		try {
-//			Reader reader = new FileReader(chosenFile);
-//			reader.close(); // closing the reader
-//			String[] cmd = new String[5];
-//			cmd[0] = "cmd.exe";
-//			cmd[1] = "/C";
-//			cmd[2] = "rundll32";
-//			cmd[3] = "url.dll,FileProtocolHandler";
-//			cmd[4] = chosenFile.toString();
-//
-//			Runtime.getRuntime().exec(cmd); // opens the file in the application
-//											// the file is to be open from, e.g.
-//											// xls-excel
-//
-//		} catch (FileNotFoundException e) {
-//			System.out.println("The file is not found " + e.getMessage());
-//		} catch (IOException eio) {
-//			System.out.println("An error has occured: " + eio.getMessage());
-//		}
-	//}
+	// File chosenFile = fileChooser.getSelectedFile();
+	//
+	// try {
+	// Reader reader = new FileReader(chosenFile);
+	// reader.close(); // closing the reader
+	// String[] cmd = new String[5];
+	// cmd[0] = "cmd.exe";
+	// cmd[1] = "/C";
+	// cmd[2] = "rundll32";
+	// cmd[3] = "url.dll,FileProtocolHandler";
+	// cmd[4] = chosenFile.toString();
+	//
+	// Runtime.getRuntime().exec(cmd); // opens the file in the application
+	// // the file is to be open from, e.g.
+	// // xls-excel
+	//
+	// } catch (FileNotFoundException e) {
+	// System.out.println("The file is not found " + e.getMessage());
+	// } catch (IOException eio) {
+	// System.out.println("An error has occured: " + eio.getMessage());
+	// }
+	// }
 }
