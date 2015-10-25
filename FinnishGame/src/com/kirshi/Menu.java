@@ -65,14 +65,14 @@ public class Menu extends JFrame {
 
 		loadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-//					System.out.println(fileChooser.getSelectedFile());
-					//loadFile();
-				//}
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					System.out.println(fileChooser.getSelectedFile());
+//					loadFile();
+				}
 				Object source = e.getSource();
 				if (source == loadFile){
 				if (fileNameLister != null){
-					fileNameLister.fileLoaded("C://test//englishwords.txt");
+					fileNameLister.fileLoaded(fileChooser.getSelectedFile().toString());
 					System.out.println("hello");
 				}
 			}

@@ -50,6 +50,7 @@ public class Words {
 	List<String> finnishList;
 	Menu menu = new Menu();
 	String englishWords;
+	String finnishWords;
 	String fileName;
 
 	public Words() throws FileNotFoundException {
@@ -145,7 +146,9 @@ public class Words {
 			@Override
 			public void fileLoaded(String fileName) {
 				System.out.println(fileName);
-				englishWords = fileName;
+				englishWords = fileName; // C:\temp\mywords1_en.txt
+//				finnishWords = fileName - utolso 2 char + "fi"
+				finnishWords = fileName.substring(0, fileName.length()-6)+"fi.txt";
 			}
 		});
 
@@ -235,17 +238,16 @@ public class Words {
 			}
 		}
 
-		// **** TO BE CORRECTED: instead of hard coded files, we need to be able
-		// to select files from the load game menu
 
 		// InputStream finnishFile =
 		// Words.class.getResourceAsStream("resources/finnishwords.txt");
 		InputStream finnishFile = null;
-		if (englishWords == null) {
+		if (finnishWords == null) {
 			finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
 		} else {
 			try {
-				finnishFile = new FileInputStream("C://test/finnishwords.txt");
+//				finnishFile = new FileInputStream("C://test/finnishwords.txt");
+				finnishFile = new FileInputStream(finnishWords);
 
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
