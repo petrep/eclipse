@@ -24,6 +24,7 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -140,25 +141,28 @@ public class Words {
 		gc.anchor = GridBagConstraints.NORTH;
 		panel.add(showAnswer, gc);
 
-		// menu.loadFile();
+		// using the setFileListener method from Menu class to receive the name
+		// of the selected custom english file
 		menu.setFileListener(new FileListener() {
-
+			// overriding the fileLoaded method from the FileListener interface
 			@Override
 			public void fileLoaded(String fileName) {
 				System.out.println(fileName);
-				englishWords = fileName; // C:\temp\mywords1_en.txt
-//				finnishWords = fileName - utolso 2 char + "fi"
-				finnishWords = fileName.substring(0, fileName.length()-6)+"fi.txt";
+				// sets the name of the english custom words
+				englishWords = fileName;
+				// gets the respective finnish custom file
+				finnishWords = fileName.substring(0, fileName.length() - 6) + "fi.txt";
 			}
 		});
 
-		AskQuestion(); // the game begins with a question
+		AskQuestion(); // the game begins with a default question
 
 		nextQuestion.addActionListener(new ActionListener() { // asks a new
 																// question from
 																// the user
 
 					public void actionPerformed(ActionEvent e) {
+						// clears the user output area
 						userAnswer.setText("");
 						result.setText("");
 						AskQuestion(); // asks the next question
@@ -206,15 +210,16 @@ public class Words {
 
 		InputStream englishFile = null;
 		System.out.println("englishWords: " + englishWords);
+		// if no custom words list is selected, the default list is used
 		if (englishWords == null) {
 			englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
 		} else {
+			// when the user clicks on NextQuestion, the custom list is loaded
 			try {
 				englishFile = new FileInputStream(englishWords);
 
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -223,6 +228,9 @@ public class Words {
 		// BufferedReader readerEng = new BufferedReader(new InputStreamReader(
 		// englishFile));
 		String lineEng = null;
+		// empties the list if it already has elements
+		// if this function is not used, the program adds the new list to the
+		// old list and ArrayOutOfBounds is thrown
 		if (englishList != null) {
 			englishList.clear();
 		}
@@ -238,7 +246,6 @@ public class Words {
 			}
 		}
 
-
 		// InputStream finnishFile =
 		// Words.class.getResourceAsStream("resources/finnishwords.txt");
 		InputStream finnishFile = null;
@@ -246,12 +253,10 @@ public class Words {
 			finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
 		} else {
 			try {
-//				finnishFile = new FileInputStream("C://test/finnishwords.txt");
 				finnishFile = new FileInputStream(finnishWords);
 
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		BufferedReader readerFin = new BufferedReader(new InputStreamReader(finnishFile, StandardCharsets.UTF_8));

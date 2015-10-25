@@ -21,7 +21,7 @@ import javax.swing.KeyStroke;
 
 public class Menu extends JFrame {
 	JFileChooser fileChooser = new JFileChooser();
-	private FileListener fileNameLister;
+	private FileListener fileNameListener;
 	
 	public Menu() {
 
@@ -65,15 +65,34 @@ public class Menu extends JFrame {
 
 		loadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// shows the open dialog
+				int showOpenDialog = 0;
+				//shows which file the user selected from the Open dialog
+				File selectedFile = fileChooser.getSelectedFile();
+				fileChooser.setDialogTitle("Select the english file you want to load");
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					System.out.println(fileChooser.getSelectedFile());
-//					loadFile();
+					// prevents the user from choosing the wrong file. It has to be the english file
+					 while(showOpenDialog == JFileChooser.APPROVE_OPTION &&
+						       !fileChooser.getSelectedFile().getName().endsWith("en.txt")){
+						      JOptionPane.showMessageDialog(null,
+						       "The file " + fileChooser.getSelectedFile()
+						       + " should end with en.txt", "Open Error",
+						       JOptionPane.ERROR_MESSAGE);
+						      // if the user chooses a wrong file, the Open dialog appears again
+						      showOpenDialog = fileChooser.showOpenDialog(null);
+						      //sets the selected file value to null until the user chooses a correct file
+						      selectedFile = null;
+						    }
 				}
+				// creates an event if the loadFile menuItem is clicked
 				Object source = e.getSource();
 				if (source == loadFile){
-				if (fileNameLister != null){
-					fileNameLister.fileLoaded(fileChooser.getSelectedFile().toString());
-					System.out.println("hello");
+				//if (fileNameListener != null){ not needed for now
+					// saves the chosen file name as a string. it is used in Words class as a name for the english custom file
+					if (selectedFile != null){
+					fileNameListener.fileLoaded(fileChooser.getSelectedFile().toString());
+					
 				}
 			}
 			}
@@ -136,10 +155,10 @@ public class Menu extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	// listening to the selected file name and passing the information to the Words class 
 	public void setFileListener(FileListener listener) {
 		
-		this.fileNameLister = listener;
+		this.fileNameListener = listener;
 	}
 
 //		File chosenFile = fileChooser.getSelectedFile();
