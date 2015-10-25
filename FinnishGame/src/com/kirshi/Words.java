@@ -49,6 +49,8 @@ public class Words {
 	List<String> englishList;
 	List<String> finnishList;
 	Menu menu = new Menu();
+	String englishWords;
+	String fileName;
 
 	public Words() throws FileNotFoundException {
 
@@ -137,41 +139,16 @@ public class Words {
 		gc.anchor = GridBagConstraints.NORTH;
 		panel.add(showAnswer, gc);
 
-		InputStream englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
-		// unsupported in java6, ignore for now
-		BufferedReader readerEng = new BufferedReader(new InputStreamReader(englishFile, StandardCharsets.UTF_8));
-		// BufferedReader readerEng = new BufferedReader(new InputStreamReader(
-		// englishFile));
-		String lineEng = null;
-		try {
-			while ((lineEng = readerEng.readLine()) != null) {
-				englishList.add(lineEng);
-			}
-		} catch (IOException e) {
-		} finally {
-			try {
-				readerEng.close();
-			} catch (IOException e) {
-			}
-		}
-		InputStream finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
-		BufferedReader readerFin = new BufferedReader(new InputStreamReader(finnishFile, StandardCharsets.UTF_8));
-		// BufferedReader readerFin = new BufferedReader(new InputStreamReader(
-		// finnishFile));
+		// menu.loadFile();
+		menu.setFileListener(new FileListener() {
 
-		finnishList = new ArrayList<String>();
-		String lineFin = null;
-		try {
-			while ((lineFin = readerFin.readLine()) != null) {
-				finnishList.add(lineFin);
+			@Override
+			public void fileLoaded(String fileName) {
+				System.out.println(fileName);
+				englishWords = fileName;
 			}
-		} catch (IOException e) {
-		} finally {
-			try {
-				readerFin.close();
-			} catch (IOException e) {
-			}
-		}
+		});
+
 		AskQuestion(); // the game begins with a question
 
 		nextQuestion.addActionListener(new ActionListener() { // asks a new
@@ -224,8 +201,81 @@ public class Words {
 
 	public void AskQuestion() {
 
-		x = random.nextInt(englishList.size());
-		randomQuestion = englishList.get(x);
+		InputStream englishFile = null;
+		System.out.println("englishWords: " + englishWords);
+		if (englishWords == null) {
+			englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
+		} else {
+			try {
+				englishFile = new FileInputStream(englishWords);
+
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+		// unsupported in java6, ignore for now
+		BufferedReader readerEng = new BufferedReader(new InputStreamReader(englishFile, StandardCharsets.UTF_8));
+		// BufferedReader readerEng = new BufferedReader(new InputStreamReader(
+		// englishFile));
+		String lineEng = null;
+		if (englishList != null) {
+			englishList.clear();
+		}
+		try {
+			while ((lineEng = readerEng.readLine()) != null) {
+				englishList.add(lineEng);
+			}
+		} catch (IOException e) {
+		} finally {
+			try {
+				readerEng.close();
+			} catch (IOException e) {
+			}
+		}
+
+		// **** TO BE CORRECTED: instead of hard coded files, we need to be able
+		// to select files from the load game menu
+
+		// InputStream finnishFile =
+		// Words.class.getResourceAsStream("resources/finnishwords.txt");
+		InputStream finnishFile = null;
+		if (englishWords == null) {
+			finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
+		} else {
+			try {
+				finnishFile = new FileInputStream("C://test/finnishwords.txt");
+
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		BufferedReader readerFin = new BufferedReader(new InputStreamReader(finnishFile, StandardCharsets.UTF_8));
+		// BufferedReader readerFin = new BufferedReader(new InputStreamReader(
+		// finnishFile));
+
+		finnishList = new ArrayList<String>();
+		String lineFin = null;
+		if (finnishList != null) {
+			finnishList.clear();
+		}
+		try {
+			while ((lineFin = readerFin.readLine()) != null) {
+				finnishList.add(lineFin);
+			}
+		} catch (IOException e) {
+		} finally {
+			try {
+				readerFin.close();
+			} catch (IOException e) {
+			}
+		}
+		System.out.println("englishlist: " + englishList);
+		System.out.println("englishlist size: " + englishList.size());
+		x = random.nextInt(this.englishList.size());
+		randomQuestion = this.englishList.get(x);
 		questionArea.setText("What is '" + randomQuestion + "' in Finnish?");
 		userAnswer.setEditable(true);
 		userAnswer.requestFocusInWindow(); // sets the cursor to appear in the

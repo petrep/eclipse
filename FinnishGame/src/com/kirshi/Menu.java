@@ -21,7 +21,8 @@ import javax.swing.KeyStroke;
 
 public class Menu extends JFrame {
 	JFileChooser fileChooser = new JFileChooser();
-
+	private FileListener fileNameLister;
+	
 	public Menu() {
 
 	}
@@ -32,10 +33,11 @@ public class Menu extends JFrame {
 
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem createFile = new JMenuItem("Create a new file");
-		JMenuItem loadFile = new JMenuItem("Load from file");
+		final JMenuItem loadFile = new JMenuItem("Load from file");
 		JMenuItem exitItem = new JMenuItem("Exit");
 		JMenuItem helpItem = new JMenuItem("Help");
 		JMenuItem uploadItem = new JMenuItem("Upload");
+		
 
 		fileMenu.add(createFile);
 		fileMenu.add(loadFile);
@@ -63,11 +65,19 @@ public class Menu extends JFrame {
 
 		loadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					System.out.println(fileChooser.getSelectedFile());
-					loadFile();
+//				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+//					System.out.println(fileChooser.getSelectedFile());
+					//loadFile();
+				//}
+				Object source = e.getSource();
+				if (source == loadFile){
+				if (fileNameLister != null){
+					fileNameLister.fileLoaded("C://test//englishwords.txt");
+					System.out.println("hello");
 				}
 			}
+			}
+			
 		});
 
 		createFile.addActionListener(new ActionListener() {
@@ -93,7 +103,6 @@ public class Menu extends JFrame {
 
 		uploadItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// System.out.println("testing");
 				new Upload();
 
 			}
@@ -128,28 +137,31 @@ public class Menu extends JFrame {
 		}
 	}
 
-	public void loadFile() {
-
-		File chosenFile = fileChooser.getSelectedFile();
-
-		try {
-			Reader reader = new FileReader(chosenFile);
-			reader.close(); // closing the reader
-			String[] cmd = new String[5];
-			cmd[0] = "cmd.exe";
-			cmd[1] = "/C";
-			cmd[2] = "rundll32";
-			cmd[3] = "url.dll,FileProtocolHandler";
-			cmd[4] = chosenFile.toString();
-
-			Runtime.getRuntime().exec(cmd); // opens the file in the application
-											// the file is to be open from, e.g.
-											// xls-excel
-
-		} catch (FileNotFoundException e) {
-			System.out.println("The file is not found " + e.getMessage());
-		} catch (IOException eio) {
-			System.out.println("An error has occured: " + eio.getMessage());
-		}
+	public void setFileListener(FileListener listener) {
+		
+		this.fileNameLister = listener;
 	}
+
+//		File chosenFile = fileChooser.getSelectedFile();
+//
+//		try {
+//			Reader reader = new FileReader(chosenFile);
+//			reader.close(); // closing the reader
+//			String[] cmd = new String[5];
+//			cmd[0] = "cmd.exe";
+//			cmd[1] = "/C";
+//			cmd[2] = "rundll32";
+//			cmd[3] = "url.dll,FileProtocolHandler";
+//			cmd[4] = chosenFile.toString();
+//
+//			Runtime.getRuntime().exec(cmd); // opens the file in the application
+//											// the file is to be open from, e.g.
+//											// xls-excel
+//
+//		} catch (FileNotFoundException e) {
+//			System.out.println("The file is not found " + e.getMessage());
+//		} catch (IOException eio) {
+//			System.out.println("An error has occured: " + eio.getMessage());
+//		}
+	//}
 }
