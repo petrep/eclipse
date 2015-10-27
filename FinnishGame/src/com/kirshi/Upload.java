@@ -1,6 +1,7 @@
 package com.kirshi;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -41,22 +42,25 @@ public class Upload {
 		dialog.setVisible(true);
 		dialog.setTitle("Upload new words into the database");
 		dialog.add(u_panel);
-		//u_panel.setPreferredSize(new Dimension(500, 600));
+		// u_panel.setPreferredSize(new Dimension(500, 600));
 
 		table.setRowHeight(40);
 		table.setCellSelectionEnabled(true);
+		table.setBackground(Color.WHITE);
 		save.setVisible(false); // at first the Save button is not visible
 		u_panel.add(addRow);
 		u_panel.add(save);
 		u_panel.add(new JScrollPane(table)); // displays the headers of the
 												// table
+		u_panel.setBackground(new Color(21, 144, 189));
 		saveFile();
 		enter();
 
 		addRow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// add row
-				save.setVisible(true);// if the addRow button is clicked, Save becomes visible
+				save.setVisible(true);// if the addRow button is clicked, Save
+										// becomes visible
 				model = (DefaultTableModel) table.getModel();
 				model.addRow(new String[] { "", "" });
 				table.repaint();
@@ -84,21 +88,22 @@ public class Upload {
 					fileChooser.setDialogTitle("Specify a folder where the two files will be saved");
 					fileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
 					fileChooser.setAcceptAllFileFilterUsed(false);
-					//String savingPath = null;
-					File savingFileName = null; 
+					// String savingPath = null;
+					File savingFileName = null;
 
 					if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 
 						System.out.println("getSelectedFile() : " + fileChooser.getSelectedFile());
-						//savingPath = fileChooser.getSelectedFile().;
+						// savingPath = fileChooser.getSelectedFile().;
 						savingFileName = fileChooser.getSelectedFile();
-						System.out.println("!!" +  savingFileName + savingFileName.getAbsolutePath());
+						System.out.println("!!" + savingFileName + savingFileName.getAbsolutePath());
 					}
 
 					PrintWriter writer = null;
 					// Saving the English words
 					try {
-//						writer = new PrintWriter(savingPath + File.separator + "english1.txt", "UTF-8");
+						// writer = new PrintWriter(savingPath + File.separator
+						// + "english1.txt", "UTF-8");
 						writer = new PrintWriter(savingFileName + "_en" + ".txt", "UTF-8");
 					} catch (FileNotFoundException e1) {
 						JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(),
@@ -121,7 +126,6 @@ public class Upload {
 									.elementAt(0);
 
 							table.repaint();
-
 							writer.println(currentEnglishWord);
 						}
 						writer.close();
@@ -129,7 +133,8 @@ public class Upload {
 
 					// Saving the Finnish words
 					try {
-//						writer = new PrintWriter(savingPath + File.separator + "finnish1.txt", "UTF-8");
+						// writer = new PrintWriter(savingPath + File.separator
+						// + "finnish1.txt", "UTF-8");
 						writer = new PrintWriter(savingFileName + "_fi" + ".txt", "UTF-8");
 					} catch (FileNotFoundException e1) {
 						JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(),
@@ -149,9 +154,10 @@ public class Upload {
 							System.out.println("vectordata: " + model.getDataVector().elementAt(finnishRowCount));
 							Object currentFinnishWord = ((Vector) tableVector.elementAt(finnishRowCount)).elementAt(1);
 							writer.println(currentFinnishWord);
+							
 						}
 						writer.close();
-					
+
 					}
 				} // display a warning pop up if a field is empty
 				else {
@@ -203,17 +209,4 @@ public class Upload {
 		}
 		return true;
 	}
-public void enableSave(){
-	
-}
-	// URL url = new URL("ftp://user:pass@myftp.abc.com/myFile.txt;type=i");
-	// URLConnection urlc = url.openConnection();
-	// OutputStream os = urlc.getOutputStream(); // To upload
-	// OutputStream buffer = new BufferedOutputStream(os);
-	// ObjectOutput output = new ObjectOutputStream(buffer);
-	// output.writeObject(myObject);
-	// buffer.close();
-	// os.close();
-	// output.close();
-
 }

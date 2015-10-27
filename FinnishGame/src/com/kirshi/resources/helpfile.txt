@@ -1,0 +1,28 @@
+
+This game helps you to remember Finnish words. The game begins with default words.
+You have the ability to create your own dictionary and then load the game with your custom words list.
+Button functions:  
+Check - checks if your anwser is correct. Note that sometimes you have to use Finnish special characters.
+Show answer - displays the correct answer.
+Next Question - generates a new question.  At first it asks you the next default question but once you have
+ selected your custom list of words the next question will be generated randomly from the list." Menu functions :
+File menu : 
+Load custom word list - loads your own dictionary.
+Exit - exists the game.
+Tools menu:
+Create custom words - Click on Add row to begin. Type the English word and its Finnish equivalent. 
+You can also press the Enter key to add new rows. 
+Please do not leave spaces after the end of the words as it might check your answer incorrectly.
+To save the list, click on Save and give your file a name.
+Note that the file format is .txt by default, so you don`t need to write the file extension, 
+just type the name of the file.
+Note that two files with be saved to the specified location. The naming convention is very important,
+so please do not change the auto-generated name of the file.
+For example, if you name your file test, then its auto-generated name will be test_en.txt.
+Note that its pair, the Finnish file, is automatically created as test_fi.txt. 
+If you wish, you can create the custom words list outside the game. 
+But keep in mind that you have to follow the naming convention and also make sure that there are no spaces
+ at the end of the words in the .txt file. 
+Help menu:  
+Instructions - click on the Instructions anytime you need information on how to play the game.
+					

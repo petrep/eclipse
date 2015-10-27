@@ -5,11 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -20,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class Menu extends JFrame {
+
+	private static final long serialVersionUID = 1L;
 	JFileChooser fileChooser = new JFileChooser();
 	private FileListener fileNameListener;
 
@@ -32,13 +29,11 @@ public class Menu extends JFrame {
 		menuBar.setBackground(Color.WHITE);
 
 		JMenu fileMenu = new JMenu("File");
-		JMenuItem createFile = new JMenuItem("Create a new file");
-		final JMenuItem loadFile = new JMenuItem("Load from file");
+		final JMenuItem loadFile = new JMenuItem("Load Custom Words");
 		JMenuItem exitItem = new JMenuItem("Exit");
-		JMenuItem helpItem = new JMenuItem("Help");
-		JMenuItem uploadItem = new JMenuItem("Upload");
+		JMenuItem helpItem = new JMenuItem("Instructions");
+		JMenuItem uploadItem = new JMenuItem("Create Custom Dictionary");
 
-		fileMenu.add(createFile);
 		fileMenu.add(loadFile);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
@@ -53,11 +48,12 @@ public class Menu extends JFrame {
 
 		toolsMenu.setMnemonic(KeyEvent.VK_T);
 		uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.ALT_MASK));
+		loadFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.ALT_MASK));
 
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.add(helpItem);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
-		helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.ALT_MASK));
+		helpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
 		menuBar.add(fileMenu);
 		menuBar.add(toolsMenu);
 		menuBar.add(helpMenu);
@@ -83,6 +79,7 @@ public class Menu extends JFrame {
 					// if the user chooses a wrong file, the Open dialog
 					// appears again
 					showOpenDialog = fileChooser.showOpenDialog(Menu.this);
+					//exits the while loop once a correct file is selected
 					if (fileChooser.getSelectedFile().getName().endsWith("en.txt")) {
 						break;
 					}
@@ -103,14 +100,6 @@ public class Menu extends JFrame {
 
 		});
 
-		createFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-					System.out.println(fileChooser.getSelectedFile());
-					createFile();
-				}
-			}
-		});
 
 		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -139,27 +128,7 @@ public class Menu extends JFrame {
 		return menuBar;
 
 	}
-
-	// creates a file in a chosen format and saves it to the selected folder
-	public void createFile() {
-		File selectedFolder = fileChooser.getSelectedFile(); // this is the
-																// selected
-																// destination
-		try {
-			FileWriter writer = new FileWriter(selectedFolder); // saves the
-																// file to the
-																// selected
-																// folder
-			writer.close(); // the writer has to be closed
-		} catch (IOException e1) {
-			System.out.println(e1.getMessage());
-			// displays a pop up with an error message if the file can not be
-			// saved
-			JOptionPane.showMessageDialog(fileChooser, "Unable to save file " + e1.getMessage(), "Save Dialog",
-					JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
+	
 	// listening to the selected file name and passing the information to the
 	// Words class
 	public void setFileListener(FileListener listener) {
@@ -167,26 +136,4 @@ public class Menu extends JFrame {
 		this.fileNameListener = listener;
 	}
 
-	// File chosenFile = fileChooser.getSelectedFile();
-	//
-	// try {
-	// Reader reader = new FileReader(chosenFile);
-	// reader.close(); // closing the reader
-	// String[] cmd = new String[5];
-	// cmd[0] = "cmd.exe";
-	// cmd[1] = "/C";
-	// cmd[2] = "rundll32";
-	// cmd[3] = "url.dll,FileProtocolHandler";
-	// cmd[4] = chosenFile.toString();
-	//
-	// Runtime.getRuntime().exec(cmd); // opens the file in the application
-	// // the file is to be open from, e.g.
-	// // xls-excel
-	//
-	// } catch (FileNotFoundException e) {
-	// System.out.println("The file is not found " + e.getMessage());
-	// } catch (IOException eio) {
-	// System.out.println("An error has occured: " + eio.getMessage());
-	// }
-	// }
 }
