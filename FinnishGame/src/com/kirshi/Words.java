@@ -116,13 +116,13 @@ public class Words {
 		gc.gridx = 0;
 		gc.gridy = 2; // the third row is 2
 
-		gc.insets = new Insets(0, 150, 20, 0);
-		gc.anchor = GridBagConstraints.WEST;
+		gc.insets = new Insets(0, 0, 0, 120);
+		gc.anchor = GridBagConstraints.CENTER;
 		panel.add(check, gc);
 
 		gc.gridx = 0;
 		gc.gridy = 2;
-		gc.insets = new Insets(0, 90, 20, 0);
+		gc.insets = new Insets(0, 88, 0, 0);
 		gc.anchor = GridBagConstraints.CENTER;
 		panel.add(nextQuestion, gc);
 
