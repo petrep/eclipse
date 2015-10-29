@@ -109,7 +109,7 @@ public class Menu extends JFrame {
 
 				if (action == JOptionPane.OK_OPTION) {
 					System.exit(0);
-				}
+				} 
 			}
 		});
 

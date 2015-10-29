@@ -47,6 +47,9 @@ public class Words {
 	JPanel panel = new JPanel();
 	String randomQuestion;
 	int x;
+	int points;
+	int sum;
+	JButton score = new JButton("Score");
 	List<String> englishList;
 	List<String> finnishList;
 	Menu menu = new Menu();
@@ -141,6 +144,13 @@ public class Words {
 		gc.anchor = GridBagConstraints.NORTH;
 		panel.add(showAnswer, gc);
 
+		// sixth
+		gc.gridx = 0;
+		gc.gridy = 5;
+		gc.insets = new Insets(0, 0, 0, 0);
+		gc.anchor = GridBagConstraints.NORTH;
+		panel.add(score, gc);
+
 		// using the setFileListener method from Menu class to receive the name
 		// of the selected custom english file
 		menu.setFileListener(new FileListener() {
@@ -161,13 +171,13 @@ public class Words {
 																// question from
 																// the user
 
-					public void actionPerformed(ActionEvent e) {
-						// clears the user output area
-						userAnswer.setText("");
-						result.setText("");
-						AskQuestion(); // asks the next question
-					}
-				});
+			public void actionPerformed(ActionEvent e) {
+				// clears the user output area
+				userAnswer.setText("");
+				result.setText("");
+				AskQuestion(); // asks the next question
+			}
+		});
 
 		check.addActionListener(new ActionListener() {
 
@@ -175,6 +185,9 @@ public class Words {
 
 				if (userAnswer.getText().trim().equals(finnishList.get(x))) {
 					result.setText("Correct");
+					// adds a point to the user`s score for each correct answer
+					points++;
+
 					result.setBackground(new Color(56, 194, 93)); // the answer
 																	// is
 																	// correct,
@@ -193,6 +206,11 @@ public class Words {
 			}
 		});
 
+		score.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				endGame();
+			}
+		});
 		showAnswer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e1) {
@@ -209,7 +227,7 @@ public class Words {
 	public void AskQuestion() {
 
 		InputStream englishFile = null;
-//		System.out.println("englishWords: " + englishWords);
+		// System.out.println("englishWords: " + englishWords);
 		// if no custom words list is selected, the default list is used
 		if (englishWords == null) {
 			englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
@@ -279,7 +297,7 @@ public class Words {
 			} catch (IOException e) {
 			}
 		}
-//		System.out.println("englishlist size: " + englishList.size());
+		// System.out.println("englishlist size: " + englishList.size());
 		x = random.nextInt(this.englishList.size());
 		randomQuestion = this.englishList.get(x);
 		questionArea.setText("What is '" + randomQuestion + "' in Finnish?");
@@ -294,4 +312,11 @@ public class Words {
 
 	}
 
+	// sums up the point the user got for each correct answer
+	public void endGame() {
+		for (int y = 0; y <= points; y++) {
+			sum = +y;
+		}
+		JOptionPane.showMessageDialog(null, "Your score is: " + sum + " out of " + finnishList.size());
+	}
 }
