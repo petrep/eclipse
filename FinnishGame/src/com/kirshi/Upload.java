@@ -50,7 +50,6 @@ public class Upload {
 		table.setRowHeight(40);
 		table.setCellSelectionEnabled(true);
 		table.setBackground(Color.WHITE);
-		save.setVisible(false); // at first the Save button is not visible
 		u_panel.setBackground(new Color(21, 144, 189));
 
 		// creating the flags
@@ -69,12 +68,12 @@ public class Upload {
 
 		saveFile();
 		enter();
+		save.setEnabled(false);
 
 		addRow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// add row
-				save.setVisible(true);// if the addRow button is clicked, Save
-										// becomes visible
+				// if the add row button is clicked, Save button is enabled
+				save.setEnabled(true);
 				model = (DefaultTableModel) table.getModel();
 				model.addRow(new String[] { "", "" });
 				table.repaint();
