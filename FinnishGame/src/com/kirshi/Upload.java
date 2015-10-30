@@ -1,22 +1,26 @@
 package com.kirshi;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,17 +46,27 @@ public class Upload {
 		dialog.setVisible(true);
 		dialog.setTitle("Upload new words into the database");
 		dialog.add(u_panel);
-		// u_panel.setPreferredSize(new Dimension(500, 600));
 
 		table.setRowHeight(40);
 		table.setCellSelectionEnabled(true);
 		table.setBackground(Color.WHITE);
 		save.setVisible(false); // at first the Save button is not visible
+		u_panel.setBackground(new Color(21, 144, 189));
+
+		// creating the flags
+		URL engFlag = Upload.class.getResource("resources/britishflag.png");
+		JLabel engLabel = new JLabel(new ImageIcon(engFlag));
+
+		URL finFlag = Upload.class.getResource("resources/finnishflag.png");
+		JLabel finLabel = new JLabel(new ImageIcon(finFlag));
+		// adding the components
+		u_panel.add(engLabel);
 		u_panel.add(addRow);
 		u_panel.add(save);
+		u_panel.add(finLabel);
 		u_panel.add(new JScrollPane(table)); // displays the headers of the
 												// table
-		u_panel.setBackground(new Color(21, 144, 189));
+
 		saveFile();
 		enter();
 
@@ -154,7 +168,7 @@ public class Upload {
 							System.out.println("vectordata: " + model.getDataVector().elementAt(finnishRowCount));
 							Object currentFinnishWord = ((Vector) tableVector.elementAt(finnishRowCount)).elementAt(1);
 							writer.println(currentFinnishWord);
-							
+
 						}
 						writer.close();
 

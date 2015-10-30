@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -70,6 +72,7 @@ public class Words {
 		// designing the GUI
 		panel.setLayout(new GridBagLayout());
 		showAnswer.setBackground(Color.white);
+		showAnswer.setEnabled(false);
 		nextQuestion.setBackground(Color.white);
 		check.setBackground(Color.white);
 		showAnswer.setMnemonic(KeyEvent.VK_S); // Alt + S to click showAnswer
@@ -175,6 +178,7 @@ public class Words {
 				// clears the user output area
 				userAnswer.setText("");
 				result.setText("");
+				showAnswer.setEnabled(false); // disables the showAnswer
 				AskQuestion(); // asks the next question
 			}
 		});
@@ -201,6 +205,15 @@ public class Words {
 																	// to
 					// red if the answer is
 					// wrong
+					// if the user area is empty, the showAnswer button is
+					// disabled
+					if (userAnswer.getText().equals("")) {
+						showAnswer.setEnabled(false);
+						System.out.println("empty");
+					} else {
+						showAnswer.setEnabled(true);
+						System.out.println("not empty");
+					}
 				}
 
 			}
@@ -218,6 +231,8 @@ public class Words {
 				result.setText(correctAnswer); // shows the correct answer
 				result.setForeground(Color.BLUE);
 				result.setBackground(Color.WHITE);
+				showAnswer.setEnabled(false);// disables the showAnswer for the
+												// next question
 
 			}
 		});
@@ -309,7 +324,6 @@ public class Words {
 																// into the
 																// center
 		result.setEditable(false);
-
 	}
 
 	// sums up the point the user got for each correct answer
