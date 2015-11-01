@@ -25,4 +25,4 @@ But keep in mind that you have to follow the naming convention and also make sur
  at the end of the words in the .txt file. 
 Help menu:  
 Instructions - click on the Instructions anytime you need information on how to play the game.
-					
+					 
