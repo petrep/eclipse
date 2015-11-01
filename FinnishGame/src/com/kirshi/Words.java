@@ -18,8 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -58,6 +57,7 @@ public class Words {
 	String englishWords;
 	String finnishWords;
 	String fileName;
+	ArrayList<Integer> alreadyAskedQuestionNumbers = new ArrayList<Integer>();
 
 	public Words() throws FileNotFoundException {
 
@@ -164,7 +164,8 @@ public class Words {
 				// sets the name of the english custom words
 				englishWords = fileName;
 				// gets the respective finnish custom file
-				finnishWords = fileName.substring(0, fileName.length() - 6) + "fi.txt";
+				finnishWords = fileName.substring(0, fileName.length() - 6)
+						+ "fi.txt";
 			}
 		});
 
@@ -174,14 +175,14 @@ public class Words {
 																// question from
 																// the user
 
-			public void actionPerformed(ActionEvent e) {
-				// clears the user output area
-				userAnswer.setText("");
-				result.setText("");
-				showAnswer.setEnabled(false); // disables the showAnswer
-				AskQuestion(); // asks the next question
-			}
-		});
+					public void actionPerformed(ActionEvent e) {
+						// clears the user output area
+						userAnswer.setText("");
+						result.setText("");
+						showAnswer.setEnabled(false); // disables the showAnswer
+						AskQuestion(); // asks the next question
+					}
+				});
 
 		check.addActionListener(new ActionListener() {
 
@@ -191,7 +192,6 @@ public class Words {
 					result.setText("Correct");
 					// adds a point to the user`s score for each correct answer
 					points++;
-
 					result.setBackground(new Color(56, 194, 93)); // the answer
 																	// is
 																	// correct,
@@ -221,7 +221,7 @@ public class Words {
 
 		score.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				endGame();
+				showScore();
 			}
 		});
 		showAnswer.addActionListener(new ActionListener() {
@@ -245,19 +245,22 @@ public class Words {
 		// System.out.println("englishWords: " + englishWords);
 		// if no custom words list is selected, the default list is used
 		if (englishWords == null) {
-			englishFile = Words.class.getResourceAsStream("resources/englishwords.txt");
+			englishFile = Words.class
+					.getResourceAsStream("resources/englishwords.txt");
 		} else {
 			// when the user clicks on NextQuestion, the custom list is loaded
 			try {
 				englishFile = new FileInputStream(englishWords);
 
 			} catch (FileNotFoundException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, e1.getMessage(),
+						"File Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 		// unsupported in java6, ignore for now
-		BufferedReader readerEng = new BufferedReader(new InputStreamReader(englishFile, StandardCharsets.UTF_8));
+		BufferedReader readerEng = new BufferedReader(new InputStreamReader(
+				englishFile, StandardCharsets.UTF_8));
 		// BufferedReader readerEng = new BufferedReader(new InputStreamReader(
 		// englishFile));
 		String lineEng = null;
@@ -283,16 +286,19 @@ public class Words {
 		// Words.class.getResourceAsStream("resources/finnishwords.txt");
 		InputStream finnishFile = null;
 		if (finnishWords == null) {
-			finnishFile = Words.class.getResourceAsStream("resources/finnishwords.txt");
+			finnishFile = Words.class
+					.getResourceAsStream("resources/finnishwords.txt");
 		} else {
 			try {
 				finnishFile = new FileInputStream(finnishWords);
 
 			} catch (FileNotFoundException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, e1.getMessage(),
+						"File Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		BufferedReader readerFin = new BufferedReader(new InputStreamReader(finnishFile, StandardCharsets.UTF_8));
+		BufferedReader readerFin = new BufferedReader(new InputStreamReader(
+				finnishFile, StandardCharsets.UTF_8));
 		// BufferedReader readerFin = new BufferedReader(new InputStreamReader(
 		// finnishFile));
 
@@ -312,8 +318,28 @@ public class Words {
 			} catch (IOException e) {
 			}
 		}
-		// System.out.println("englishlist size: " + englishList.size());
+		System.out.println("is this a newly loaded game: "
+				+ menu.newGameStarted);
+		if (menu.newGameStarted == true) {
+			// englishList.clear();
+			// finnishList.clear();
+			alreadyAskedQuestionNumbers.clear();
+			menu.newGameStarted = false;
+		}
+		System.out.println("englishlist size: " + englishList);
+		System.out.println("alreadyAskedQuestionNumbers size: "
+				+ alreadyAskedQuestionNumbers);
 		x = random.nextInt(this.englishList.size());
+		if ((alreadyAskedQuestionNumbers.size()) == englishList.size()) {
+			System.out.println("all were asked");
+			endGame();
+		}
+		while (alreadyAskedQuestionNumbers.contains(x)) {
+			System.out.println("this question was already asked!");
+			x = random.nextInt(this.englishList.size());
+		}
+
+		alreadyAskedQuestionNumbers.add(x);
 		randomQuestion = this.englishList.get(x);
 		questionArea.setText("What is '" + randomQuestion + "' in Finnish?");
 		userAnswer.setEditable(true);
@@ -321,16 +347,44 @@ public class Words {
 											// text field
 		userAnswer.setHorizontalAlignment(JTextField.CENTER); // aligns the
 																// typed text
-																// into the
-																// center
+		// into the
+
+		// center
 		result.setEditable(false);
 	}
 
 	// sums up the point the user got for each correct answer
+	public void showScore() {
+		for (int y = 0; y <= points; y++) {
+			sum = +y;
+		}
+		 JOptionPane.showMessageDialog(null, "Your score is: " + sum
+		 + " out of " + finnishList.size());
+		
+	}
+	// Offers 3 options to the player: start a new quiz, load a custom dictionary or quit the game
 	public void endGame() {
 		for (int y = 0; y <= points; y++) {
 			sum = +y;
 		}
-		JOptionPane.showMessageDialog(null, "Your score is: " + sum + " out of " + finnishList.size());
+		JOptionPane.showMessageDialog(null, "Your score is: " + sum
+				+ " out of " + finnishList.size());
+		alreadyAskedQuestionNumbers.clear();
+		String[] customButtons = {"Try Again", "Load another Dictionary", "Quit Game"};
+
+		int action = JOptionPane.showOptionDialog(null, "Do you want to retry the the game or load a new custom dictionary?",
+				"Game finished", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, customButtons, null);
+//		if (action == JOptionPane.YES_OPTION) {
+//			JOptionPane.showMessageDialog(null, "try");
+//		}
+		if (action == JOptionPane.NO_OPTION) {
+			menu.loadGame();
+			
+		}
+		if (action == JOptionPane.CANCEL_OPTION) {
+			System.exit(0);
+		}
 	}
+
 }
